@@ -25,29 +25,23 @@ def start_game(grid):
             print ("now it's player2 turn")
             return cur_player
         else:
+            cur_player = "player1"
             print ("now it's player1 turn")
             return cur_player
 
 # a function to ask the current player to play and store their input
-    def ask_input():
-        if current_player == "player1":
+    def ask_input(cur_player):
+        if cur_player == "player1":
             input_player1 = input(f" it's your turn x player, please choose a location so: first the line number, then space, then the column ")
             print (input_player1)
             return input_player1
         else:
             input_player2 = input(f" it's your turn o player, please choose a location so: first the line number, then space, then the column ")
-            print (input_player1)
+            print (input_player2)
             return input_player2
 
-# a function to show who the current player is   
-    """def who_is_playing():
-        if player1:
-            print ("player1 is now playing")
-        else:
-            print ("player2 is now playing")"""
-
 #current_player = switch_players()   
-    input_player = ask_input()
+    #input_player = ask_input()
 
 # a function to insert the players input into the grid
     def insert_input(inpt):
@@ -62,40 +56,48 @@ def start_game(grid):
         grid[input_line][input_column] = "0"
     """
 # a function that adjusts the grid according to the last move
-    def adjust_grid(last_move):
-        if current_player == "player1":
+    def adjust_grid(last_move, cur_player):
+        if cur_player == "player1":
             line = last_move[0]
             column = last_move[1]
         #print (f"line: {line}, column: {column}")
             grid[line][column] = "x"
             display_board(grid)
+            return grid
         else:
             line = last_move[0]
             column = last_move[1]
         #print (f"line: {line}, column: {column}")
             grid[line][column] = "o"
             display_board(grid)
+            return grid
 
 
+    def another_turn(cur_player):
+        input_player = ask_input(cur_player)
+        new_move = insert_input(input_player)
+        adjust_grid(new_move, cur_player)
+        cur_player = switch_players(cur_player)
+        return cur_player
 
-#who_is_playing()
+    another_turn(current_player)
 
+start_game(grid)
+
+"""
+    input_player = ask_input(current_player)
     new_move = insert_input(input_player)
-    updated_grid = adjust_grid(new_move)
-    grid = updated_grid
-    print (grid)
+    adjust_grid(new_move, current_player)
     current_player = switch_players(current_player)
-    ask_input()
-    input_player = ask_input
+    input_player = ask_input(current_player)
     new_move = insert_input(input_player)
-    updated_grid = adjust_grid(new_move)
-    grid = updated_grid
-    print (grid)
-#print ("new move: ", new_move)
-#display_board(grid)
+    adjust_grid(new_move, current_player)
+    current_player = switch_players(current_player)
+    """
+   
 
 # ... write as many functions as you need
-start_game(grid)
+
 
 # Tic-tac-toe game
 if __name__ == "__main__":
